@@ -19,3 +19,29 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+
+@api.route('/register', methods=['POST'])
+def register():
+    # en mi variable body voy a guardar los datos que necesito cuando un user se registra-->
+    body = request.get_json() 
+    # y voy  a retornar en formato jsonify() la variable donde guardo los datos que he recogido del user
+    # cuando alguien se registra debe mi app comprobar si existe ya ese registro-->
+    print(body['email'])
+    # mirar SQLAlquemis
+    OnePeople = User.query.filter_by(email=body['email']).first() 
+    # body['email']-->es donde se ha recogido la información del usuario que se acaba de registrar y donde debe hacer la búsqueda con OnePeople
+    if OnePeople:
+        return "user ya registrado", 200
+
+    else: 
+# en caso de no estar registrado le vamos a pedir que registre al user: 
+    # SQL alquemis--> Insert newUser
+        newUser = User(email=body['email'], password=body['password'], is_active = True)
+        db.session.add(newUser)
+        db.session.commit()
+        return jsonify(body), 201
+        # podemos comprobarlo con posmant ...y efectivamente funciona :D 
+        # a continuación crearé desde el front ('/private') el registro
+
+    
