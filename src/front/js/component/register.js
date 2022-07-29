@@ -3,16 +3,16 @@ import { Context } from "../store/appContext";
 
 // import { Link } from "react-router-dom";
 
-export const Private = () => {
+export const Register = () => {
     // para lograr capturar los datos crearé una variable de estado: 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {actions} = useContext(Context);
 
     // para hacer un console.log cuando las variebles email y password hayan sido modificadas-->hago un useEffect y comprobar que se ha adquirido bien los datos...
-    // useEffect(()=>{
-    //     console.log(email, password);
-    // }, [email, password])
+    useEffect(()=>{
+        console.log(email, password);
+    }, [email, password]);
     // de esta manera conseguimos en consola los datos que acabamos de registrar.
     // introducir en el form evento OnSubmit() para rellenar los input
     return <div className="container">

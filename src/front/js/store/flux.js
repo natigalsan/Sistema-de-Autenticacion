@@ -44,19 +44,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
 
         var requestOptions = {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
           body: raw,
-          redirect: "follow",
+          redirect: 'follow'
         };
-
-        fetch(
-          "https://3001-natigalsan-sistemadeaut-66pe421wyxt.ws-eu54.gitpod.io/api/register",
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
+        
+        fetch("https://3001-natigalsan-sistemadeaut-mhecfp74hvt.ws-eu54.gitpod.io/api/register", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
       },
 
       changeColor: (index, color) => {
