@@ -44,4 +44,28 @@ def register():
         # podemos comprobarlo con posmant ...y efectivamente funciona :D 
         # a continuación crearé desde el front ('/private') el registro
 
-    
+#---------------------------- RUTA PARA INICIAR SESIÓN------------------------------
+@api.route('/login', methods=['POST'])
+def login():
+    # Para inciar sesión necesito capturar los datos de usuario y contraseña para ello hago lo siguiente: 
+    body = request.get_json() 
+    # cuando usuario y contraseña sean correctos --> genero un token y luego lo return... en formato jsonify
+    # pero debo comprobar si el usuario existe cuando hacen el login: 
+    OnePeople = User.query.filter_by(email=body['email'], password = body['password']).first() 
+    if OnePeople:
+        # si existe en mi base de datos un ususario con estos datos --> le creamos su token
+        token = create_access_token(identity = body['email'])
+        return jsonify({'access_token': token, "mensaje": "Bienvenido, acaba de iniciar sesión"}), 200
+        # en caso contrario de no existir: 
+
+    else: 
+        return jsonify({"error": "El usuario no existe"}), 418
+
+
+
+#voy a crear una ruta que necesita del token: 
+@api.route('/private', methods=['GET'])
+@jwt_required()
+def private():
+    return jsonify({"mensaje": "Tienes permiso para iniciar sesión", "permiso": True}), 200
+    # en Postman mando el token poniendo Autorización con método GET: Type: "Bearer Token"

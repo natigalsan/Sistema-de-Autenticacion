@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 
 // import { Link } from "react-router-dom";
 
-export const Register = () => {
+export const Login = () => {
     // para lograr capturar los datos crearé una variable de estado: 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -16,8 +16,7 @@ export const Register = () => {
     // de esta manera conseguimos en consola los datos que acabamos de registrar.
     // introducir en el form evento OnSubmit() para rellenar los input
     return <div className="container">
-         <h1>Registrarse:</h1>
-
+        <h1>Inicio de Sesión:</h1>
         <form 
         onSubmit={(e)=>{e.preventDefault();
             // console.log(e);
@@ -50,7 +49,7 @@ export const Register = () => {
             <button 
             type= "submit"
             className="btn btn-primary"
-            onClick={() =>{actions.register(email, password);}}
+            onClick={() =>{actions.login(email, password);}}
             >Submit</button>
         </form>
     </div>
