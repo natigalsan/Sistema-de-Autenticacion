@@ -1,6 +1,8 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
+      permiso: false,
+      user: "",
       message: null,
       demo: [
         {
@@ -44,37 +46,66 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
 
         var requestOptions = {
-          method: 'POST',
+          method: "POST",
           headers: myHeaders,
           body: raw,
-          redirect: 'follow'
+          redirect: "follow",
         };
 
-        fetch("https://3001-natigalsan-sistemadeaut-mhecfp74hvt.ws-eu54.gitpod.io/api/register", requestOptions)
-          .then(response => response.text())
-          .then(result => console.log(result))
-          .catch(error => console.log('error', error));
+        fetch(
+          "https://3001-natigalsan-sistemadeaut-mhecfp74hvt.ws-eu54.gitpod.io/api/register",
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
       },
 
       login: (email, password) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        
+
         var raw = JSON.stringify({
-          "email": email,
-          "password": password
+          email: email,
+          password: password,
         });
-        
+
         var requestOptions = {
-          method: 'POST',
+          method: "POST",
           headers: myHeaders,
           body: raw,
+          redirect: "follow",
+        };
+
+        fetch(
+          "https://3001-natigalsan-sistemadeaut-cwuw7ugbdno.ws-eu54.gitpod.io/api/login",
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            // console.log(result.access_token);
+            alert(result.mensaje);
+            sessionStorage.setItem("token", result.access_token);
+          })
+          .catch((error) => console.log("error", error));
+      },
+
+      privado: () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer  ${sessionStorage.getItem('token')}`);
+        
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
           redirect: 'follow'
         };
         
-        fetch("https://3001-natigalsan-sistemadeaut-cwuw7ugbdno.ws-eu54.gitpod.io/api/login", requestOptions)
+        fetch("https://3001-natigalsan-sistemadeaut-cwuw7ugbdno.ws-eu54.gitpod.io/api/private", requestOptions)
           .then(response => response.text())
-          .then(result => console.log(result))
+          .then(result => {console.log(result)
+          setStore({permiso: result.permiso});
+          setStore({user: result.email});
+        })
           .catch(error => console.log('error', error));
       },
 

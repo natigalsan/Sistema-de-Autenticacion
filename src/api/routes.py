@@ -67,5 +67,6 @@ def login():
 @api.route('/private', methods=['GET'])
 @jwt_required()
 def private():
-    return jsonify({"mensaje": "Tienes permiso para iniciar sesión", "permiso": True}), 200
+    identidad = get_jwt_identity()
+    return jsonify({"mensaje": "Tienes permiso para iniciar sesión", "permiso": True, "email": identidad}), 200
     # en Postman mando el token poniendo Autorización con método GET: Type: "Bearer Token"
